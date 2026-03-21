@@ -1,0 +1,23 @@
+G04 #@! TF.GenerationSoftware,KiCad,Pcbnew,9.0.7*
+G04 #@! TF.CreationDate,2026-03-18T00:55:47+08:00*
+G04 #@! TF.ProjectId,chemistrylabreport,6368656d-6973-4747-9279-6c6162726570,rev?*
+G04 #@! TF.SameCoordinates,Original*
+G04 #@! TF.FileFunction,Profile,NP*
+%FSLAX46Y46*%
+G04 Gerber Fmt 4.6, Leading zero omitted, Abs format (unit mm)*
+G04 Created by KiCad (PCBNEW 9.0.7) date 2026-03-18 00:55:47*
+%MOMM*%
+%LPD*%
+G01*
+G04 APERTURE LIST*
+G04 #@! TA.AperFunction,Profile*
+%ADD10C,0.200000*%
+G04 #@! TD*
+G04 APERTURE END LIST*
+D10*
+X122500000Y-52025000D02*
+X177500000Y-52025000D01*
+X177500000Y-92775000D01*
+X122500000Y-92775000D01*
+X122500000Y-52025000D01*
+M02*
