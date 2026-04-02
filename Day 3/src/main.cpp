@@ -1,14 +1,22 @@
+/* ------ INCLUDING LIBRARIES ------ */
+
+
 #include <Arduino.h>
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_NeoPixel.h>
+#include <U8g2lib.h>
+#include "ui.h"
 
-#define SCREEN_WIDTH 128
-#define SCREEN_HEIGHT 64
-#define OLED_RESET     -1
 
-Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
+/* ------ OLED SCREEN SPECS ------ */
+
+
+U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R0, /* reset=*/ U8X8_PIN_NONE);
+
+
+/* ------ */
 Adafruit_NeoPixel pixels(1, 8, NEO_GRB + NEO_KHZ800);
 
 
@@ -22,64 +30,64 @@ void setup() {
   pinMode(LDR, INPUT);
   pinMode(VIB, INPUT_PULLUP);
   Serial.begin(9600);
-  Wire.begin(5,4);
-}
 
-void loop() {
-  /*
-  
-  if(ldrValue < 1240) tone(BUZ, 1500);
-   noTone(BUZ);
-  else tone(BUZ, 50);
-  */
+  Wire.begin(5,4);
+  u8g2.begin();
 
   pixels.begin();
   pixels.setPixelColor(0, pixels.Color(0, 0, 0));
   pixels.show();
-  int ldrValue = analogRead(LDR);
-  int vibValue = digitalRead(VIB);
+}
 
-  display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-  display.clearDisplay();
+void loop() {
 
-  if(ldrValue < 1240){
-    display.setTextSize(7);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0,0);
-    display.println("o-o");
-    display.display();
-    tone(BUZ, 100);
-    delay(2000);
+
+
+  if(analogRead(LDR) > 1240 && analogRead(LDR) < 2740){
     noTone(BUZ);
-  }
-
-  else if(ldrValue > 2730){
-    display.setTextSize(7);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0,0);
-    display.println("-w-");
-    display.display();
-  }
-
-  else{
-    display.setTextSize(7);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0,0);
-    display.println("owo");
-    display.display();
-  }
-
-  if(ldrValue > 2730 && vibValue == 0) {
-    display.clearDisplay();
-    display.setTextSize(7);
-    display.setTextColor(SSD1306_WHITE);
-    display.setCursor(0,0);
-    display.println("T-T");
-    display.display();
+    neutral();
+    pixels.begin();
+    pixels.setBrightness(5);
     pixels.setPixelColor(0, pixels.Color(255, 255, 255));
     pixels.show();
+    delay(3000);
+    neutral_2();
+    neutral_3();
+  }
+
+  else if(analogRead(LDR) > 2730){
+    pixels.begin();
+    pixels.setBrightness(5);
+    pixels.setPixelColor(0, pixels.Color(0, 0, 255));
+    pixels.show();
+    neutral_3();
+    tone(BUZ, 50);
+  }
+
+  else {
+    pixels.begin();
+    pixels.setBrightness(5);
+    pixels.setPixelColor(0, pixels.Color(0, 0, 255));
+    pixels.show();
+    bright();
+    tone(BUZ, 1000);
+  }
+
+  if (analogRead(LDR) > 2730 && digitalRead(VIB) == 0) {
+    
+    tone(BUZ, 1000, 2000);
+    pixels.begin();
+    pixels.setBrightness(5);
+    pixels.setPixelColor(0, pixels.Color(255, 0, 0));
+    pixels.show();
+    evil();
+    delay(2000);
+  }
+
+
+  /*if(analogRead(LDR) > 2730 && digitalRead(VIB) == 0) {
     tone(BUZ, 1500);
     delay(2000);
     noTone(BUZ);
-  }
+  }*/
 }
